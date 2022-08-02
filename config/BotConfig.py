@@ -17,7 +17,6 @@ finally:
         logging.info('all variables have loaded to env')
     else:
         logging.fatal('env file not found')
-        exit()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 DATABASE_PATH = os.getenv('DATABASE_PATH')
 SHOP_CHANNEL_ID = os.getenv('SHOP_CHANNEL_ID')

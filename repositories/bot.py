@@ -11,4 +11,3 @@ try:
     dp = Dispatcher(bot, storage=fsm)
 except ValidationError:
     logging.fatal('Произошла ошибка при авторизации токена')
-    exit()
