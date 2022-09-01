@@ -21,7 +21,6 @@ def getInfoAboutSubcategories():
         categoryList[i['cat']].update({i['sub']: i['c']})
     return categoryList
 
-
 def getInfoAboutCategories() -> dict:
     categoriesInfo = {}
     for category, subsInfo in getInfoAboutSubcategories().items():
@@ -47,3 +46,6 @@ def subcatWithNew(id):  # get subcategories with new items
         .where(Subcategory.id.in_(NoveltyInfo.select(NoveltyInfo.subcategory)
                                   .where(NoveltyInfo.user_id == userId)))
     return [subCategory.title for subCategory in subcategoriesWithNew]
+
+
+print(getInfoAboutCategories().keys())

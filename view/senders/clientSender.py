@@ -1,23 +1,10 @@
-from repositories.bot import bot
-
 from aiogram import types
 
 from view.patterns import clientPatterns as pattern
 from repositories.bot import bot
 
 
-async def info(userId):
-    await bot.send_message(userId, text=pattern.info)
-
-
-async def start(userId, startKeyboard):
-    await bot.send_message(userId,
-                           text='Привет, это бот-каталог вещей магазина SecondRoom',
-                           reply_markup=startKeyboard)
-
-
 async def catalogOpen(userId, categoryInfo, categoryKeyboard, noveltyInfo):
-    await bot.send_message(userId, 'Открываю каталог', reply_markup=types.ReplyKeyboardRemove())
     await bot.send_message(userId,
                            pattern.getCategoryMenu(categoryInfo, noveltyInfo),
                            reply_markup=categoryKeyboard)

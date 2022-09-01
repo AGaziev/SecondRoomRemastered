@@ -20,4 +20,4 @@ finally:
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 DATABASE_PATH = os.getenv('DATABASE_PATH')
 SHOP_CHANNEL_ID = os.getenv('SHOP_CHANNEL_ID')
-USED_COMMANDS = ['/login', '/add']
+USED_COMMANDS = ['/login', '/add', '/catalog', '/admin']

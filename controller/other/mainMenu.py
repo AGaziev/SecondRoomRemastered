@@ -1,6 +1,5 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters import Text, IDFilter
 from model.user.userControl import getUserById, isUserRegistered, registerUser, getUserRole
 from model.keyboards.otherKeyboardCreator import getMainMenuKeyboard
 from ._FSMOther import FSMOther

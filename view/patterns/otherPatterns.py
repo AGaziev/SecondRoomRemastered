@@ -1,6 +1,6 @@
 def mainMenu(mention, role, date):
     text = f'Привет, {mention}\n' \
-           f'{f"{role}" if role != "client" else ""}\n' \
+           f'{f"{role}" if role.name != "client" else ""}\n' \
            f'Дата регистрации: {date}'
     return text
 
