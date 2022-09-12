@@ -112,3 +112,12 @@ class NoveltyInfo(Model):
             (('user', 'subcategory', 'category'), True),
         )
         db_table = 'NoveltyInfo'
+
+class Statistic(BaseModel):
+    category = ForeignKeyField(Category)
+    subcategory = ForeignKeyField(Subcategory)
+    count = IntegerField(null=True,default=0)
+    date = DateField(null=True,default=[SQL('DEFAULT CURRENT_DATE')])
+
+    class Meta:
+        db_table = 'Statistic'
