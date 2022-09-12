@@ -19,6 +19,6 @@ class FSMAdmin(StatesGroup):
     statLastWeek = State()
 
     GroupStates = {
-        'addCloth': [category, subCategory, brand, name, price, size, condition, photo]
+        'addCloth': [category, subCategory, brand, name, price, size, condition, photo],
         'statisticsShow': [statChoose, statCurDay, statLastWeek]
     }
