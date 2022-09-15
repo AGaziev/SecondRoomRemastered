@@ -7,7 +7,7 @@ from controller.other._FSMOther import FSMOther
 from model.user.adminControl import authorization
 from model.user.userControl import getUserById, getUserRole
 from model.keyboards.otherKeyboardCreator import getMainMenuKeyboard
-from model.keyboards.adminKeyboardCreator import getAdminPanelKeyboard
+from model.keyboards.adminKeyboardCreator import getAdminPanelKeyboard, getStatPeriodKeyboard
 
 from view.senders import adminSender as sender
 from view.senders import otherSender
@@ -15,18 +15,25 @@ from view.senders import otherSender
 
 async def statisticChoose(callback: types.CallbackQuery, state: FSMContext):
     if authorization(callback.from_user.id):
-        await sender.enterAdminPanel(
+        await sender.statChoose(
             id=callback.message.chat.id,
-            adminPanelKeyboard=getAdminPanelKeyboard(getUserRole(getUserById(callback.from_user.id)))
+            statPeriodKeyboard=getStatPeriodKeyboard()
         )
-        await FSMAdmin.panel.set()
+        await FSMAdmin.statChoose.set()
     else:
         await sender.permDenied(
             callback.message.chat.id
         )
+        await state.finish()
     await callback.answer()
-    await FSMAdmin.panel.set()
 
+async def statisticDayWrite(callback: types.CallbackQuery, state: FSMContext):
+    await sender.waitForDay(
+        id=callback.message.chat.id,
+    )
+
+async def statisticDayShow(message: types.CallbackQuery, state: FSMContext):
+    pass
 
 async def backToLogin(callback: types.CallbackQuery, state: FSMContext):
     await FSMOther.mainMenu.set()

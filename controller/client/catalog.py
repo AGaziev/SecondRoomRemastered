@@ -13,6 +13,7 @@ from model.keyboards.otherKeyboardCreator import getMainMenuKeyboard
 from model.novelty import noveltyControl
 from model.cloth.clothManager import getClothesList, deleteClothFromDB
 from model.user.userControl import getUserById, getUserRole
+from model.statistics.statController import incrStatBySubcategory
 
 
 async def backCallback(callback: types.CallbackQuery, state: FSMContext):
@@ -76,7 +77,7 @@ async def subcategorySelect(callback: types.CallbackQuery, state: FSMContext):
 async def showClothes(callback: types.CallbackQuery, state: FSMContext):
     await callback.answer()
     async with state.proxy() as show:
-        # TODO SUBCATEGORIES STATISTICS INCR
+        incrStatBySubcategory(callback.data)
         show['subCategory'] = callback.data
         noveltyControl.notNewAnymore(callback.from_user.id, show['category'], show['subCategory'])
         show['clothes'] = getClothesList(show['category'], show['subCategory'])

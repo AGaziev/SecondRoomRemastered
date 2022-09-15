@@ -46,7 +46,7 @@ class User(Model):
     first_name = CharField(null=True)
     last_name = CharField(null=True)
     username = CharField(null=True)
-    role_id = ForeignKeyField(Role)
+    role_id = ForeignKeyField(Role, default='client', on_delete='SET DEFAULT')
     date_of_registration = DateField(default=datetime.date.today())
 
     @property
@@ -87,7 +87,7 @@ class Cloth(BaseModel):
     subcategory = ForeignKeyField(Subcategory)
     category = ForeignKeyField(Category)
     seller = ForeignKeyField(User)
-    timestamp = DateTimeField(default=[SQL('DEFAULT CURRENT_TIMESTAMP')])
+    timestamp = DateTimeField(default=datetime.date.today())
 
     class Meta:
         db_table = 'Cloth'
@@ -102,7 +102,7 @@ class Photo(BaseModel):
 
 
 class NoveltyInfo(Model):
-    user = ForeignKeyField(User)
+    user = ForeignKeyField(User, on_delete='cascade')
     subcategory = ForeignKeyField(Subcategory)
     category = ForeignKeyField(Category)
 
@@ -113,11 +113,19 @@ class NoveltyInfo(Model):
         )
         db_table = 'NoveltyInfo'
 
+
 class Statistic(BaseModel):
     category = ForeignKeyField(Category)
     subcategory = ForeignKeyField(Subcategory)
-    count = IntegerField(null=True,default=0)
-    date = DateField(null=True,default=[SQL('DEFAULT CURRENT_DATE')])
+    count = IntegerField(null=True, default=0)
+    date = DateField(null=True, default=datetime.date.today())
+
+    def incr(self):
+        self.count += 1
+        return self
 
     class Meta:
+        indexes = (
+            (('subcategory', 'date', 'category'), True),
+        )
         db_table = 'Statistic'

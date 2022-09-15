@@ -32,3 +32,7 @@ def createMediaGroupForPost(clothInfo: dict):
                                                        caption=getClothInfoForChannel(clothInfo) if i == 0 else '',
                                                        parse_mode=types.ParseMode.HTML))
     return media
+
+
+def chooseStatShowPeriod():
+    return 'Выберите за какой период хотите посмотреть статистику'

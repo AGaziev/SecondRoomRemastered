@@ -60,3 +60,12 @@ endAddingPhotoButs = [
 def isLastPhotoKeyboard():
     return InlineKeyboardMarkup().add(
         *(InlineKeyboardButton(text, callback_data=data) for text, data in endAddingPhotoButs))
+
+statPeriodButs = [
+    ('День', 'day'),
+    ('За последнюю неделю', 'lastWeek')
+]
+
+def getStatPeriodKeyboard():
+    return InlineKeyboardMarkup().add(
+        *(InlineKeyboardButton(text, callback_data=data) for text, data in statPeriodButs))

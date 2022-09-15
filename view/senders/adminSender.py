@@ -57,3 +57,9 @@ async def endAddingPhoto(id, endAddingKeyboard):
 async def postNewClothInChannel(clothInfo: dict):
     await bot.send_media_group(SHOP_CHANNEL_ID,
                                media=pattern.createMediaGroupForPost(clothInfo))
+
+
+async def statChoose(id, statPeriodKeyboard):
+    await bot.send_message(id,
+                           pattern.chooseStatShowPeriod(),
+                           reply_markup=statPeriodKeyboard)

@@ -15,10 +15,11 @@ class FSMAdmin(StatesGroup):
     photo = State()
 
     statChoose = State()
-    statCurDay = State()
+    statDay = State()
+    statWriteDay = State()
     statLastWeek = State()
 
     GroupStates = {
         'addCloth': [category, subCategory, brand, name, price, size, condition, photo],
-        'statisticsShow': [statChoose, statCurDay, statLastWeek]
+        'statisticsShow': [statChoose, statDay, statWriteDay, statLastWeek]
     }
