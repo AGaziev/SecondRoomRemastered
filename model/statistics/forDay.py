@@ -1,22 +1,25 @@
 import peewee
 
 from model import *
+from config import GRAPH_SRC_PATH
 
 import matplotlib.pyplot as plt
+import math
 import datetime
 import re
 import numpy as np
 import pandas as pd
+from matplotlib.pyplot import Figure
 
 
 def getStatsPictPerDay(rawDate):
     dateRegular = r'(?P<year>20\d{2})[\.\-\/\\](?P<month>\d{2})[\.\-\/\\](?P<day>\d{2})'
     dateAttributes = re.match(dateRegular, rawDate).groups()
     day = datetime.date(*map(int, dateAttributes))
-    plt.subplots(2,2, figsize=(10,10))
-    categoriesPlot = getPlotCategoriesStats(day)
-    subcategoriesPlots = getPlotSubcategoriesStats(day)
-    plt.show()
+    getPlotCategoriesStats(day)
+    getPlotSubcategoriesStats(day)
+    plt.tight_layout()
+    plt.savefig(GRAPH_SRC_PATH)
 
 
 def getPlotCategoriesStats(date):
@@ -28,14 +31,13 @@ def getPlotCategoriesStats(date):
     catsX = np.array([i['categoryName'] for i in info])
     countsY = np.array([i['count'] for i in info])
 
-    plt.subplot(2,2,1)
-    plt.title('Количество вхождение в каждую из категорий')
+    plt.subplot(3, 2, 3)
     return plt.pie(countsY,
                    labels=catsX,
                    shadow=True,
-                   autopct=make_autopct(countsY),
-                   radius=2,
-                   textprops={'fontsize': 10})
+                   autopct=makeAutopct(countsY),
+                   radius=1.9,
+                   pctdistance=0.7)
 
 
 def getPlotSubcategoriesStats(date):
@@ -55,18 +57,19 @@ def getPlotSubcategoriesStats(date):
     for id, subcatStatsInfo in enumerate(data.values()):
         subcatNames = list(subcatStatsInfo.keys())
         subcatStatsCounters = list(subcatStatsInfo.values())
-        plt.subplot(2,2,id+2)
-        subPlot = plt.barh(subcatNames, subcatStatsCounters, height=0.5)
+        plt.subplot(3, 2, (id + 1) * 2)
+        plt.xticks(range(min(subcatStatsCounters), max(subcatStatsCounters) + 1))
+        subPlot = plt.barh(subcatNames,
+                           subcatStatsCounters
+                           )
         plotsForSubcategories.append(subPlot)
     return plotsForSubcategories
 
-def make_autopct(values):  # thx stackoverflow
+
+def makeAutopct(values):  # thx stackoverflow
     def my_autopct(pct):
         total = sum(values)
         val = int(round(pct * total / 100.0))
-        return '{p:.2f}%  ({v:d})'.format(p=pct, v=val)
+        return '{v:d}'.format(p=pct, v=val)
 
     return my_autopct
-
-
-getStatsPictPerDay('2022-09-15')

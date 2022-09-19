@@ -20,4 +20,5 @@ finally:
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 DATABASE_PATH = os.getenv('DATABASE_PATH')
 SHOP_CHANNEL_ID = os.getenv('SHOP_CHANNEL_ID')
+GRAPH_SRC_PATH = os.getenv('GRAPH_SRC_PATH')
 USED_COMMANDS = ['/login', '/add', '/catalog', '/admin']

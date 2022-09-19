@@ -1,6 +1,7 @@
 from model import *
 from datetime import date
 from model import DoesNotExist
+from model.cloth.categoriesInfo import getInfoAboutSubcategories
 
 def incrStatBySubcategory(subcategoryToIncr):
     today = date.today()
@@ -21,3 +22,7 @@ def incrStatBySubcategory(subcategoryToIncr):
     finally:
         statToIncr.incr().save()
     return True
+
+for cat, subcats in getInfoAboutSubcategories().items():
+    for sub in subcats.keys():
+        incrStatBySubcategory(sub)
