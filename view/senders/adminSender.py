@@ -76,3 +76,9 @@ async def showStatsPerDay(id, graphPicturePath):
     graphPicturePath = Path(graphPicturePath)
     await bot.send_photo(chat_id=id,
                          photo=types.InputFile(graphPicturePath))
+
+
+async def showStatsPerWeek(id, graphPicturePath):
+    graphPicturePath = Path(graphPicturePath)
+    await bot.send_photo(chat_id=id,
+                         photo=types.InputFile(graphPicturePath))

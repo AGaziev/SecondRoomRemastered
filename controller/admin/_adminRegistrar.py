@@ -29,3 +29,4 @@ def registerHandlers(dp):
     dp.register_callback_query_handler(statisticDayWrite, state=FSMAdmin.statChoose, text='day')
     dp.register_message_handler(statisticDayShow, state=[FSMAdmin.statDay, FSMAdmin.statWriteDay],
                                 regexp=r'(?P<year>20\d{2})[\.\-\/\\](?P<month>\d{2})[\.\-\/\\](?P<day>\d{2})')
+    dp.register_callback_query_handler(statisticWeekShow, state=FSMAdmin.statChoose, text='lastWeek')

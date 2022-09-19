@@ -1,5 +1,3 @@
-import peewee
-
 from model import *
 from config import GRAPH_SRC_PATH
 

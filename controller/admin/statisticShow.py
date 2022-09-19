@@ -11,6 +11,7 @@ from model.user.userControl import getUserById, getUserRole
 from model.keyboards.otherKeyboardCreator import getMainMenuKeyboard
 from model.keyboards.adminKeyboardCreator import getStatPeriodKeyboard
 from model.statistics.forDay import getStatsPictPathPerDay
+from model.statistics.forWeek import getStatsPictPathPerWeek
 
 from view.senders import adminSender as sender
 from view.senders import otherSender
@@ -46,6 +47,18 @@ async def statisticDayShow(message: types.Message, state: FSMContext):
         return
     else:
         await sender.showStatsPerDay(id=message.chat.id, graphPicturePath=pictPath)
+    os.remove(pictPath)
+
+async def statisticWeekShow(callback: types.CallbackQuery, state: FSMContext):
+    try:
+        pictPath = getStatsPictPathPerWeek()
+    except Exception as e:
+        print(e)
+        return
+    else:
+        await sender.showStatsPerWeek(id=callback.from_user.id, graphPicturePath=pictPath)
+    await callback.answer()
+    await FSMAdmin.statLastWeek.set()
     os.remove(pictPath)
 
 
