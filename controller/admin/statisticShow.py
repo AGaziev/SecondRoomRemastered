@@ -1,3 +1,5 @@
+import os
+
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
@@ -7,7 +9,8 @@ from controller.other._FSMOther import FSMOther
 from model.user.adminControl import authorization
 from model.user.userControl import getUserById, getUserRole
 from model.keyboards.otherKeyboardCreator import getMainMenuKeyboard
-from model.keyboards.adminKeyboardCreator import getAdminPanelKeyboard, getStatPeriodKeyboard
+from model.keyboards.adminKeyboardCreator import getStatPeriodKeyboard
+from model.statistics.forDay import getStatsPictPathPerDay
 
 from view.senders import adminSender as sender
 from view.senders import otherSender
@@ -27,13 +30,24 @@ async def statisticChoose(callback: types.CallbackQuery, state: FSMContext):
         await state.finish()
     await callback.answer()
 
+
 async def statisticDayWrite(callback: types.CallbackQuery, state: FSMContext):
     await sender.waitForDay(
         id=callback.message.chat.id,
     )
+    await FSMAdmin.statDay.set()
 
-async def statisticDayShow(message: types.CallbackQuery, state: FSMContext):
-    pass
+
+async def statisticDayShow(message: types.Message, state: FSMContext):
+    try:
+        pictPath = getStatsPictPathPerDay(message.text)
+    except Exception as e:
+        print(e)
+        return
+    else:
+        await sender.showStatsPerDay(id=message.chat.id, graphPicturePath=pictPath)
+    os.remove(pictPath)
+
 
 async def backToLogin(callback: types.CallbackQuery, state: FSMContext):
     await FSMOther.mainMenu.set()

@@ -69,3 +69,4 @@ statPeriodButs = [
 def getStatPeriodKeyboard():
     return InlineKeyboardMarkup().add(
         *(InlineKeyboardButton(text, callback_data=data) for text, data in statPeriodButs))
+

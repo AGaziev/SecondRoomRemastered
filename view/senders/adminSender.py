@@ -3,6 +3,8 @@ from config.BotConfig import SHOP_CHANNEL_ID
 from view.patterns import adminPatterns as pattern
 from repositories.bot import bot
 
+from pathlib import Path
+
 
 async def permDenied(id):
     return await bot.send_message(id, 'Недостаточно прав')
@@ -63,3 +65,14 @@ async def statChoose(id, statPeriodKeyboard):
     await bot.send_message(id,
                            pattern.chooseStatShowPeriod(),
                            reply_markup=statPeriodKeyboard)
+
+
+async def waitForDay(id):
+    await bot.send_message(id,
+                           pattern.writeStatShowDay())
+
+
+async def showStatsPerDay(id, graphPicturePath):
+    graphPicturePath = Path(graphPicturePath)
+    await bot.send_photo(chat_id=id,
+                         photo=types.InputFile(graphPicturePath))

@@ -1,4 +1,5 @@
 from aiogram import types
+from datetime import date
 
 adminGreeting = 'Успешный вход на панель админа'
 
@@ -36,3 +37,8 @@ def createMediaGroupForPost(clothInfo: dict):
 
 def chooseStatShowPeriod():
     return 'Выберите за какой период хотите посмотреть статистику'
+
+def writeStatShowDay():
+    return f'Напишите день за который хочешь просмотреть статистику в формате \n\n' \
+           f'YYYY-MM-DD\n' \
+           f'Например, {date.today()}'

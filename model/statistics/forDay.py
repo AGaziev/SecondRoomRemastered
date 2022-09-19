@@ -4,22 +4,22 @@ from model import *
 from config import GRAPH_SRC_PATH
 
 import matplotlib.pyplot as plt
-import math
 import datetime
 import re
 import numpy as np
-import pandas as pd
-from matplotlib.pyplot import Figure
 
 
-def getStatsPictPerDay(rawDate):
+def getStatsPictPathPerDay(rawDate):
     dateRegular = r'(?P<year>20\d{2})[\.\-\/\\](?P<month>\d{2})[\.\-\/\\](?P<day>\d{2})'
     dateAttributes = re.match(dateRegular, rawDate).groups()
     day = datetime.date(*map(int, dateAttributes))
     getPlotCategoriesStats(day)
     getPlotSubcategoriesStats(day)
     plt.tight_layout()
-    plt.savefig(GRAPH_SRC_PATH)
+    savePath = f'{GRAPH_SRC_PATH}/statsFor({rawDate}).png'
+    plt.savefig(savePath)
+    plt.clf()
+    return savePath
 
 
 def getPlotCategoriesStats(date):
