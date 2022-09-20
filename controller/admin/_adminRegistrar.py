@@ -1,6 +1,7 @@
 from .adminPanel import *
 from .addCloth import *
 from .statisticShow import *
+from .userRoleControl import *
 from controller.other._FSMOther import FSMOther
 from model.cloth.categoriesInfo import getInfoAboutCategories
 from aiogram import filters
@@ -21,7 +22,7 @@ def registerHandlers(dp):
     dp.register_message_handler(chooseSize, state=FSMAdmin.price)
     dp.register_message_handler(chooseCondition, state=FSMAdmin.size)
     dp.register_message_handler(choosePhoto, state=FSMAdmin.condition)
-    dp.register_message_handler(Text(equals='-'), state=FSMAdmin.photo)
+    dp.register_message_handler(deleteLastPhoto,Text(equals='-'), state=FSMAdmin.photo)
     dp.register_message_handler(endAddingCloth, content_types=['photo'], state=FSMAdmin.photo)
     dp.register_callback_query_handler(returnToAdminPanel, state=FSMAdmin.photo, text='returnToPanel')
     #statistics
@@ -30,3 +31,5 @@ def registerHandlers(dp):
     dp.register_message_handler(statisticDayShow, state=[FSMAdmin.statDay, FSMAdmin.statWriteDay],
                                 regexp=r'(?P<year>20\d{2})[\.\-\/\\](?P<month>\d{2})[\.\-\/\\](?P<day>\d{2})')
     dp.register_callback_query_handler(statisticWeekShow, state=FSMAdmin.statChoose, text='lastWeek')
+    #roles
+    dp.register_callback_query_handler(chooseRoleChangeTo, state=FSMAdmin.panel, text='editRoles')

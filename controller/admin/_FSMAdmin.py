@@ -19,7 +19,11 @@ class FSMAdmin(StatesGroup):
     statWriteDay = State()
     statLastWeek = State()
 
+    chooseRoleChangeTo = State()
+    writeID = State()
+
     GroupStates = {
         'addCloth': [category, subCategory, brand, name, price, size, condition, photo],
-        'statisticsShow': [statChoose, statDay, statWriteDay, statLastWeek]
+        'statisticsShow': [statChoose, statDay, statWriteDay, statLastWeek],
+        'userRoleControl': [chooseRoleChangeTo, writeID]
     }

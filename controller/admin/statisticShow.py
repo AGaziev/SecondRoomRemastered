@@ -60,13 +60,3 @@ async def statisticWeekShow(callback: types.CallbackQuery, state: FSMContext):
     await callback.answer()
     await FSMAdmin.statLastWeek.set()
     os.remove(pictPath)
-
-
-async def backToLogin(callback: types.CallbackQuery, state: FSMContext):
-    await FSMOther.mainMenu.set()
-    user = getUserById(callback.from_user.id)
-    await otherSender.login(chatId=callback.from_user.id,
-                            mention=user.mention,
-                            role=user.role_id,
-                            dateOfRegistration=user.date_of_registration,
-                            keyboard=getMainMenuKeyboard(getUserRole(user)))

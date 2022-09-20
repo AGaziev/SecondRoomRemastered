@@ -4,7 +4,7 @@ from model.cloth.categoriesInfo import getInfoAboutCategories, getInfoAboutSubca
 adminPanelCheck = {
     'access_statistics': InlineKeyboardButton(text='Статистика', callback_data='statistics'),
     'can_add_clothes': InlineKeyboardButton(text='Добавить вещь', callback_data='addCloth'),
-    'can_add_sellers': InlineKeyboardButton(text='Добавить продавца', callback_data='addSeller')
+    'can_edit_roles': InlineKeyboardButton(text='Изменить роли', callback_data='editRoles')
 }
 
 adminPanelButts = [
@@ -61,12 +61,26 @@ def isLastPhotoKeyboard():
     return InlineKeyboardMarkup().add(
         *(InlineKeyboardButton(text, callback_data=data) for text, data in endAddingPhotoButs))
 
+
 statPeriodButs = [
     ('День', 'day'),
     ('За последнюю неделю', 'lastWeek')
 ]
 
+
 def getStatPeriodKeyboard():
     return InlineKeyboardMarkup().add(
         *(InlineKeyboardButton(text, callback_data=data) for text, data in statPeriodButs))
 
+
+endAddingPhotoButs = [
+    ('admin', 'toAdmin'),
+    ('seller', 'toSeller'),
+    ('client', 'toClient'),
+    ('banned', 'toBanned')
+]
+
+
+def getRoleChangerKeyboard():
+    return InlineKeyboardMarkup().add(
+        *(InlineKeyboardButton(text, callback_data=data) for text, data in endAddingPhotoButs))

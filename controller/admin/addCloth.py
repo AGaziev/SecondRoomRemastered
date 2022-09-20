@@ -82,7 +82,7 @@ async def deletePhoto(message: types.Message, state: FSMContext):
 async def endAddingCloth(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['photo'].append(message.photo[0].file_id)
-    await sender.endAddingPhoto(message.from_user.id, isLastPhotoKeyboard())
+        await sender.endAddingPhoto(message.from_user.id, isLastPhotoKeyboard())
 
 
 # @dp.callback_query_handler(state=FSMAdmin.photo,text='returnToPanel')

@@ -38,7 +38,29 @@ def createMediaGroupForPost(clothInfo: dict):
 def chooseStatShowPeriod():
     return 'Выберите за какой период хотите посмотреть статистику'
 
+
 def writeStatShowDay():
     return f'Напиши день за который хочешь просмотреть статистику в формате \n\n' \
            f'YYYY-MM-DD\n' \
            f'Например, {date.today()}'
+
+
+rolesRules = {
+    'can_delete_all': '🚫 Может удалять любые вещи\n',
+    'access_statistics': '📈 Смотреть статистику бота\n',
+    'can_post_in_group': '📝 Постить свои вещи в основную группу\n',
+    'can_edit_roles': '👑 Изменять права других участников\n',
+    'access_admin_panel': '😎 Доступ к панели админа\n',
+    'can_add_clothes': '👕 Добавлять свои вещи\n',
+    'access_catalog': '📲 Доступ к каталогу вещей\n'
+}
+
+
+def roleDescription(roles):
+    text = 'Что могут разные роли\n\n'
+    for role in roles:
+        text += f'*{role["name"].upper()}\n*'
+        for perm in rolesRules:
+            if role[perm]:
+                text += f'{rolesRules.get(perm,"")}'
+    return text+'Ничего :('

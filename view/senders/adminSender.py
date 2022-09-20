@@ -82,3 +82,10 @@ async def showStatsPerWeek(id, graphPicturePath):
     graphPicturePath = Path(graphPicturePath)
     await bot.send_photo(chat_id=id,
                          photo=types.InputFile(graphPicturePath))
+
+
+async def chooseRoleChangeTo(id, rolesChangesToKeyboard, roles):
+    await bot.send_message(chat_id=id,
+                           text=pattern.roleDescription(roles),
+                           reply_markup=rolesChangesToKeyboard,
+                           parse_mode= "Markdown")

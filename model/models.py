@@ -33,7 +33,7 @@ class Role(Model):
     access_statistics = BooleanField()
     access_catalog = BooleanField()
     can_delete_all = BooleanField()
-    can_add_sellers = BooleanField()
+    can_edit_roles = BooleanField()
     can_add_clothes = BooleanField()
 
     class Meta:
@@ -129,3 +129,5 @@ class Statistic(BaseModel):
             (('subcategory', 'date', 'category'), True),
         )
         db_table = 'Statistic'
+
+db.create_tables([Role])
