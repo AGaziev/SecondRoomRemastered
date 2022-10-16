@@ -2,6 +2,7 @@ from model import *
 from playhouse.shortcuts import model_to_dict
 from model.novelty.noveltyControl import addNoveltyForNewUser
 
+
 def isUserRegistered(id):
     if getUserById(id):
         return True
@@ -24,6 +25,18 @@ def registerUser(userInfoFromMessage):
     return user
 
 
-
 def getUserRole(user):
     return model_to_dict(user.role_id)
+
+
+def getUserListExceptRole(roleName):
+    return User.select().where(User.role_id != roleName)
+
+
+def changeUserRole(id, roleName):
+    try:
+        user = getUserById(id)
+        user.role_id = Role.get(Role.name == roleName)
+        user.save()
+    except Exception:
+        return

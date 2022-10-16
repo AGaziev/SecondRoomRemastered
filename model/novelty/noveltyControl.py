@@ -1,6 +1,7 @@
 from model.cloth import categoriesInfo
 from model.models import *
 
+
 def setNoveltyToUsers(subCategory, novelty):
     listOfUsersId = User.select(User.telegram_id)
     subCategoryModel = Subcategory.get(Subcategory.title == subCategory)
@@ -8,10 +9,10 @@ def setNoveltyToUsers(subCategory, novelty):
     noveltyInfoList = []
     if novelty:
         for userId in listOfUsersId:
-            NoveltyInfo.create(user_id=userId.telegram_id,
-                               subcategory_id=subCategoryModel.id,
-                               category_id=categoryId).save()
-
+            n, created = NoveltyInfo.get_or_create(user_id=userId.telegram_id,
+                                      subcategory_id=subCategoryModel.id,
+                                      category_id=categoryId)
+            n.save()
     else:
         NoveltyInfo.delete().where(NoveltyInfo.category == categoryId,
                                    NoveltyInfo.subcategory == subCategoryModel.id).execute()

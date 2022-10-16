@@ -1,5 +1,6 @@
 from aiogram.types import ReplyKeyboardMarkup, InlineKeyboardMarkup, KeyboardButton, InlineKeyboardButton
 from model.cloth.categoriesInfo import getInfoAboutCategories, getInfoAboutSubcategories
+from model.roles.rolesControl import getRoleNames
 
 adminPanelCheck = {
     'access_statistics': InlineKeyboardButton(text='Статистика', callback_data='statistics'),
@@ -53,7 +54,7 @@ def getConditionKeyboard():
 
 
 endAddingPhotoButs = [
-    ('Нет', 'returnToPanel')
+    ('Нет', 'endAddingCloth')
 ]
 
 
@@ -73,14 +74,15 @@ def getStatPeriodKeyboard():
         *(InlineKeyboardButton(text, callback_data=data) for text, data in statPeriodButs))
 
 
-endAddingPhotoButs = [
-    ('admin', 'toAdmin'),
-    ('seller', 'toSeller'),
-    ('client', 'toClient'),
-    ('banned', 'toBanned')
-]
-
-
 def getRoleChangerKeyboard():
     return InlineKeyboardMarkup().add(
-        *(InlineKeyboardButton(text, callback_data=data) for text, data in endAddingPhotoButs))
+        *(InlineKeyboardButton(text, callback_data=text) for text in getRoleNames()))
+
+confirmationButs = [
+    ('Да', 'yes'),
+    ('Нет', 'no')
+]
+
+def getConfirmationKeyboard():
+    return InlineKeyboardMarkup().add(
+        *(InlineKeyboardButton(text, callback_data=data) for text, data in confirmationButs))

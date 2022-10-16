@@ -8,7 +8,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 
 from model.cloth.clothManager import addClothToDB
 from model.keyboards.adminKeyboardCreator import getClothCategoriesKeyboard, getClothSubCategoriesKeyboard, \
-    getConditionKeyboard, isLastPhotoKeyboard
+    getConditionKeyboard, isLastPhotoKeyboard, getConfirmationKeyboard
 from model.user.adminControl import authorization, canPostInGroup
 
 from view.senders import adminSender as sender
@@ -89,17 +89,30 @@ async def endAddingCloth(message: types.Message, state: FSMContext):
 async def returnToAdminPanel(callback: types.CallbackQuery, state: FSMContext):
     await callback.answer()
     async with state.proxy() as data:
-        data['user'] = callback.from_user.mention
-        data['userId'] = callback.from_user.id
-        data['date'] = str(date.today())
-        if canPostInGroup(callback.from_user.id):
-            try:
-                await sender.postNewClothInChannel(data)
-            except Exception as e:
-                logging.error('Post in general channel rejected by ' + e)
         addClothToDB(data)
     await state.finish()
     await adminPanel(callback, state)
+
+
+async def confirmationOfPosting(callback: types.CallbackQuery, state: FSMContext):
+    await callback.answer()
+    async with state.proxy() as data:
+        data['user'] = callback.from_user.mention
+        data['userId'] = callback.from_user.id
+        data['date'] = str(date.today())
+    await sender.confirmationOfPosting(id=callback.message.chat.id,
+                                       confirmationKeyboard=getConfirmationKeyboard())
+    await FSMAdmin.confirmationPostingInGroup.set()
+
+
+async def postingInGroup(callback: types.CallbackQuery, state: FSMContext):
+    async with state.proxy() as data:
+        if canPostInGroup(callback.from_user.id):
+            # try:
+            await sender.postNewClothInChannel(data)
+            # except Exception as e:
+            #     logging.error(e)
+    await returnToAdminPanel(callback, state)
 
 
 async def addPropertyToCloth(state: FSMContext, nameOfProperty, propertyInfo, alternativePropertyInfo='None'):

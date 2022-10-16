@@ -13,6 +13,7 @@ class FSMAdmin(StatesGroup):
     size = State()
     condition = State()
     photo = State()
+    confirmationPostingInGroup = State()
 
     statChoose = State()
     statDay = State()
@@ -21,9 +22,10 @@ class FSMAdmin(StatesGroup):
 
     chooseRoleChangeTo = State()
     writeID = State()
+    confirmationRoleChanging = State()
 
     GroupStates = {
-        'addCloth': [category, subCategory, brand, name, price, size, condition, photo],
+        'addCloth': [category, subCategory, brand, name, price, size, condition, photo, confirmationPostingInGroup],
         'statisticsShow': [statChoose, statDay, statWriteDay, statLastWeek],
-        'userRoleControl': [chooseRoleChangeTo, writeID]
+        'userRoleControl': [chooseRoleChangeTo, writeID, confirmationRoleChanging]
     }

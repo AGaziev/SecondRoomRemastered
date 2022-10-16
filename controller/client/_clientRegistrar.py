@@ -11,5 +11,6 @@ def registerHandlers(dp):
     dp.register_callback_query_handler(backCallback, state=FSMClient.states, text='back')
     dp.register_callback_query_handler(showClothes, state=FSMClient.subCategorySelect)
     dp.register_message_handler(getAnother, text=['<<', '>>'], state=FSMClient.showClothes)
-    dp.register_message_handler(deleteCloth, Text(equals=['удалить', 'delete', 'udalit'], ignore_case=True))
+    dp.register_message_handler(deleteCloth, Text(equals=['удалить', 'delete', 'udalit'], ignore_case=True),
+                                state=FSMClient.showClothes)
     dp.register_message_handler(back, Text(equals='Назад', ignore_case=True), state=FSMClient.showClothes)

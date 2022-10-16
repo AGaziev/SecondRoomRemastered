@@ -88,4 +88,26 @@ async def chooseRoleChangeTo(id, rolesChangesToKeyboard, roles):
     await bot.send_message(chat_id=id,
                            text=pattern.roleDescription(roles),
                            reply_markup=rolesChangesToKeyboard,
-                           parse_mode= "Markdown")
+                           parse_mode="Markdown")
+
+
+async def sendUsersListChangeable(id, roleNameChangeTo, usersExceptRole):
+    await bot.send_message(chat_id=id,
+                           text=pattern.listOfUsersExceptRole(roleNameChangeTo, usersExceptRole))
+
+
+async def confirmationOfChanging(id, roleNameChangeTo, userToChange, confirmationKeyboard):
+    await bot.send_message(chat_id=id,
+                           text=pattern.isActuallyChangeRoleToUser(roleNameChangeTo, userToChange),
+                           reply_markup=confirmationKeyboard)
+
+
+async def noUserFound(id):
+    await bot.send_message(chat_id=id,
+                           text='Пользователь не найден')
+
+
+async def confirmationOfPosting(id, confirmationKeyboard):
+    await bot.send_message(chat_id=id,
+                           text='Вы хотите запостить эту вещь в основную группу SecondRoomShop',
+                           reply_markup=confirmationKeyboard)

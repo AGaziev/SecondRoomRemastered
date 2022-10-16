@@ -69,7 +69,7 @@ class User(Model):
 
         :return: str
         """
-        if self.username != 'None':
+        if self.username != None:
             return '@' + self.username
         return self.full_name
 
@@ -95,7 +95,7 @@ class Cloth(BaseModel):
 
 class Photo(BaseModel):
     photoId = CharField()
-    of_cloth = ForeignKeyField(Cloth)
+    of_cloth = ForeignKeyField(Cloth, on_delete='cascade')
 
     class Meta:
         db_table = 'Photo'
@@ -129,5 +129,3 @@ class Statistic(BaseModel):
             (('subcategory', 'date', 'category'), True),
         )
         db_table = 'Statistic'
-
-db.create_tables([Role])

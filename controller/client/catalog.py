@@ -104,8 +104,11 @@ async def getAnother(message: types.Message, state: FSMContext):
 
 async def deleteCloth(message: types.Message, state: FSMContext):
     async with state.proxy() as show:
+        # print(show['currentCloth'])
+        # print(not getUserById(message.from_user.id).role_id.can_delete_all)
+        # print(not show['clothes'][show['currentCloth']]['userId'] == message.from_user.id)
         if not getUserById(message.from_user.id).role_id.can_delete_all or \
-                not show['currentCloth']['userId'] == message.from_user.id:
+                not str(show['clothes'][show['currentCloth']]['userId']) == str(message.from_user.id):
             return
         deleteClothFromDB(show['category'], show['subCategory'], show['currentClothId'])
         show['clothes'] = getClothesList(show['category'], show['subCategory'])

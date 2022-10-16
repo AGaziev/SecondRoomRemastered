@@ -62,5 +62,18 @@ def roleDescription(roles):
         text += f'*{role["name"].upper()}\n*'
         for perm in rolesRules:
             if role[perm]:
-                text += f'{rolesRules.get(perm,"")}'
-    return text+'Ничего :('
+                text += f'{rolesRules.get(perm, "")}'
+    bannedPermissions = 'Ничего :('
+    return text + bannedPermissions
+
+
+def listOfUsersExceptRole(roleNameChangeTo, usersExceptRole):
+    text = 'Список пользователей:\n'
+    for user in usersExceptRole:
+        text += f'/{user.telegram_id} - {user.mention}\n'
+    text += f'Нажмите на айди пользователя чтобы изменить его роль на {roleNameChangeTo}'
+    return text
+
+
+def isActuallyChangeRoleToUser(roleNameChangeTo, userToChange):
+    return f'Действительно изменить роль {userToChange.mention} на {roleNameChangeTo}?'

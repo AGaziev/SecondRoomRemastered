@@ -40,8 +40,8 @@ def deleteClothFromDB(category, subCategory, clothId):
     logging.info(
         f'Deleting cloth from base {category}, {subCategory} with id: {clothId}')
     with db:
-        Cloth.delete().where(Cloth.id == clothId).execute()
         Photo.delete().where(Photo.of_cloth == clothId).execute()
+        Cloth.delete().where(Cloth.id == clothId).execute()
     count = getNumberOfClothes(category, subCategory)
     if count == 0:
         noveltyControl.setNoveltyToUsers(subCategory, False)
