@@ -129,3 +129,14 @@ class Statistic(BaseModel):
             (('subcategory', 'date', 'category'), True),
         )
         db_table = 'Statistic'
+
+
+class PendingCloth(BaseModel):
+    cloth = ForeignKeyField(Cloth, on_delete='cascade')
+    seller = ForeignKeyField(User, on_delete='cascade')
+
+    class Meta:
+        indexes = (
+            (('cloth', 'seller'), True),
+        )
+        db_table = 'PendingCloth'

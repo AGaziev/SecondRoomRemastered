@@ -1,6 +1,7 @@
 from aiogram.types import ReplyKeyboardMarkup, InlineKeyboardMarkup, KeyboardButton, InlineKeyboardButton
 from model.cloth.categoriesInfo import getInfoAboutCategories, getInfoAboutSubcategories
 from model.roles.rolesControl import getRoleNames
+from model.cloth.delayingClothes import getDelayedClothsForSeller
 
 adminPanelCheck = {
     'access_statistics': InlineKeyboardButton(text='Статистика', callback_data='statistics'),
@@ -13,11 +14,13 @@ adminPanelButts = [
 ]
 
 
-def getAdminPanelKeyboard(role: dict):
+def getAdminPanelKeyboard(role: dict, userId):
     adminPanelKeyboard = InlineKeyboardMarkup(row_width=3)
     for perm, but in adminPanelCheck.items():
         if role[perm] == True:
             adminPanelKeyboard.add(but)
+    if getDelayedClothsForSeller(userId):
+        adminPanelKeyboard.add(InlineKeyboardButton(text='Запостить отложенное', callback_data='postDelayed'))
     adminPanelKeyboard.add(*[InlineKeyboardButton(text=text, callback_data=data) for text, data in adminPanelButts])
     return adminPanelKeyboard
 
@@ -86,3 +89,8 @@ confirmationButs = [
 def getConfirmationKeyboard():
     return InlineKeyboardMarkup().add(
         *(InlineKeyboardButton(text, callback_data=data) for text, data in confirmationButs))
+
+def getConfirmationPostingKeyboard():
+    return InlineKeyboardMarkup().\
+        add(*(InlineKeyboardButton(text, callback_data=data) for text, data in confirmationButs)).\
+        add(InlineKeyboardButton('Отложить', callback_data='delay'))

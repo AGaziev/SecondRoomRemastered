@@ -18,9 +18,9 @@ def getClothInfoForChannel(data: dict):
         userMention = f"<a href=\"tg://user?id={data['userId']}\">{data['user']}</a>"
     except:
         userMention = data['user']
-    name = (f'\"{data["name"]}\"' if data["name"] != 'None' else '')
+    name = (f'{data["name"]}' if data["name"] != 'None' else f'{data["subCategory"]} ')
     return f'{data["brand"]}\n\n' \
-           f'{data["subCategory"]} {name}\n\n' \
+           f'{name}\n\n' \
            f'{data["size"]}\n\n' \
            f'{data["price"]}\n\n' \
            f'За покупкой {userMention}'

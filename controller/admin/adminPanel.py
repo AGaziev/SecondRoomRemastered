@@ -4,6 +4,7 @@ from aiogram.dispatcher import FSMContext
 from ._FSMAdmin import FSMAdmin
 from controller.other._FSMOther import FSMOther
 
+from model.cloth.delayingClothes import getDelayedClothsForSeller, deletePostedCloths
 from model.user.adminControl import authorization
 from model.user.userControl import getUserById, getUserRole
 from model.keyboards.otherKeyboardCreator import getMainMenuKeyboard
@@ -17,7 +18,8 @@ async def adminPanel(callback: types.CallbackQuery, state: FSMContext):
     if authorization(callback.from_user.id):
         await sender.enterAdminPanel(
             id=callback.message.chat.id,
-            adminPanelKeyboard=getAdminPanelKeyboard(getUserRole(getUserById(callback.from_user.id)))
+            adminPanelKeyboard=getAdminPanelKeyboard(getUserRole(getUserById(callback.from_user.id)),
+                                                     userId=callback.from_user.id)
         )
         await FSMAdmin.panel.set()
     else:
@@ -27,6 +29,11 @@ async def adminPanel(callback: types.CallbackQuery, state: FSMContext):
     await callback.answer()
     await FSMAdmin.panel.set()
 
+async def postDelayed(callback: types.CallbackQuery, state:FSMContext):
+    clothsData = getDelayedClothsForSeller(callback.from_user.id)
+    for data in clothsData:
+        await sender.postNewClothInChannel(data)
+    deletePostedCloths(clothsData)
 
 async def backToLogin(callback: types.CallbackQuery, state: FSMContext):
     await FSMOther.mainMenu.set()

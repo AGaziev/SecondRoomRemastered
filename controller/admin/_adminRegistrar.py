@@ -11,6 +11,7 @@ from aiogram import filters
 def registerHandlers(dp):
     dp.register_callback_query_handler(adminPanel, state=FSMOther.mainMenu, text='adminPanel')
     dp.register_message_handler(adminPanel, state='*', commands=['admin'])
+    dp.register_callback_query_handler(postDelayed, state=FSMAdmin.panel, text='postDelayed')
     dp.register_callback_query_handler(backToLogin, state=FSMAdmin.panel, text='back')
     # add cloth
     dp.register_callback_query_handler(startAdding, state=FSMAdmin.panel, text='addCloth')
@@ -27,6 +28,7 @@ def registerHandlers(dp):
     dp.register_message_handler(endAddingCloth, content_types=['photo'], state=FSMAdmin.photo)
     dp.register_callback_query_handler(returnToAdminPanel, state=FSMAdmin.confirmationPostingInGroup, text='no')
     dp.register_callback_query_handler(postingInGroup, state=FSMAdmin.confirmationPostingInGroup, text='yes')
+    dp.register_callback_query_handler(delayPostingInGroup, state=FSMAdmin.confirmationPostingInGroup, text='delay')
     dp.register_callback_query_handler(confirmationOfPosting, state=FSMAdmin.photo, text='endAddingCloth')
     #statistics
     dp.register_callback_query_handler(statisticChoose, state=FSMAdmin.panel, text='statistics')

@@ -1,3 +1,5 @@
+from typing import Union
+
 from model import *
 
 

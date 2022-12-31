@@ -34,6 +34,7 @@ def addClothToDB(data):
             Photo.create(photoId=photoId, of_cloth_id=clothData.id)
 
     noveltyControl.setNoveltyToUsers(data['subCategory'], True)
+    return clothData.id
 
 
 def deleteClothFromDB(category, subCategory, clothId):

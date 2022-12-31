@@ -7,8 +7,9 @@ from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters.state import State, StatesGroup
 
 from model.cloth.clothManager import addClothToDB
+from model.cloth.delayingClothes import addDelayedCloth
 from model.keyboards.adminKeyboardCreator import getClothCategoriesKeyboard, getClothSubCategoriesKeyboard, \
-    getConditionKeyboard, isLastPhotoKeyboard, getConfirmationKeyboard
+    getConditionKeyboard, isLastPhotoKeyboard, getConfirmationPostingKeyboard
 from model.user.adminControl import authorization, canPostInGroup
 
 from view.senders import adminSender as sender
@@ -88,8 +89,6 @@ async def endAddingCloth(message: types.Message, state: FSMContext):
 # @dp.callback_query_handler(state=FSMAdmin.photo,text='returnToPanel')
 async def returnToAdminPanel(callback: types.CallbackQuery, state: FSMContext):
     await callback.answer()
-    async with state.proxy() as data:
-        addClothToDB(data)
     await state.finish()
     await adminPanel(callback, state)
 
@@ -100,8 +99,9 @@ async def confirmationOfPosting(callback: types.CallbackQuery, state: FSMContext
         data['user'] = callback.from_user.mention
         data['userId'] = callback.from_user.id
         data['date'] = str(date.today())
+        data['clothId'] = addClothToDB(data)
     await sender.confirmationOfPosting(id=callback.message.chat.id,
-                                       confirmationKeyboard=getConfirmationKeyboard())
+                                       confirmationKeyboard=getConfirmationPostingKeyboard())
     await FSMAdmin.confirmationPostingInGroup.set()
 
 
@@ -112,6 +112,12 @@ async def postingInGroup(callback: types.CallbackQuery, state: FSMContext):
             await sender.postNewClothInChannel(data)
             # except Exception as e:
             #     logging.error(e)
+    await returnToAdminPanel(callback, state)
+
+async def delayPostingInGroup(callback: types.CallbackQuery, state:FSMContext):
+    async with state.proxy() as data:
+        if canPostInGroup(callback.from_user.id):
+            addDelayedCloth(data['clothId'], data['userId'])
     await returnToAdminPanel(callback, state)
 
 
