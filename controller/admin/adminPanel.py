@@ -1,3 +1,5 @@
+import time
+
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
@@ -33,6 +35,7 @@ async def postDelayed(callback: types.CallbackQuery, state:FSMContext):
     clothsData = getDelayedClothsForSeller(callback.from_user.id)
     for data in clothsData:
         await sender.postNewClothInChannel(data)
+        time.sleep(20)
     deletePostedCloths(clothsData)
 
 async def backToLogin(callback: types.CallbackQuery, state: FSMContext):
